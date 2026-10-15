@@ -1,4 +1,7 @@
 <!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Voxy Speed Gen Wiki</title>
 <meta name="description" content="Guide and reference for Voxy Speed Gen, the background LOD generator for Voxy.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -335,9 +338,18 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
   .pn .next { grid-column: 1; }
   h2 { font-size: 21px; }
 }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 200; padding: 10px 16px; border: 2px solid var(--accent); border-radius: var(--radius); background: var(--panel); color: var(--ink); font: 600 15px/1 var(--f-body); cursor: pointer; }
+.skip:focus { top: 10px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+main:focus, h1:focus { outline: none; }
+.gloss { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0 0 8px; }
+.gloss dt { font-weight: 700; }
+.gloss dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .gloss { grid-template-columns: 1fr; } .gloss dd { margin-bottom: 8px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; } }
 </style>
 
+<button class="skip" type="button" onclick="document.getElementById('main').focus()">Skip to content</button>
 <header class="top">
   <button class="icon-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false" aria-controls="side">
     <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="2" fill="none"/></svg>
@@ -352,7 +364,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
 
 <div class="shell">
   <aside class="side" id="side" aria-label="Wiki navigation"><nav id="nav"></nav></aside>
-  <main id="main">
+  <main id="main" tabindex="-1">
 
 <article class="page" data-page="home">
   <div class="mp-banner">
@@ -361,7 +373,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
         <img src="img/icon.png" alt="">
         <div><h1>Voxy Speed Gen</h1><p>Background LOD generator for Voxy &middot; Fabric</p></div>
       </div>
-      <p class="mp-intro">Voxy only draws distant terrain for chunks you've already loaded. Voxy Speed Gen generates that terrain in the background, around every player, so the horizon fills in without anyone flying out to explore it.</p>
+      <p class="mp-intro">Voxy only draws distant terrain for chunks you've already loaded. Voxy Speed Gen generates that terrain in the background, around every player, so the horizon fills in without anyone flying out to explore it. It runs your world's own generator, so it works with Tellus, terrain and biome mods, and datapacks.</p>
       <figure class="mp-hero">
         <button class="shot" data-src="img/vista_high.webp" aria-label="Enlarge"><img src="img/vista_high.webp" alt="A landscape of forests, coast and snowy mountains stretching to the horizon, all rendered by Voxy." width="1600" height="900"></button>
         <div class="stamp"><span>Default settings</span><span>LOD Distance 128</span></div>
@@ -390,8 +402,8 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <h3><a href="#getting-started">Getting started</a></h3><p>Install it, pick the right jar, and see what happens on first launch.</p>
       <div class="subs"><a href="#install">Installing</a><a href="#versions">Versions</a><a href="#first-launch">First launch</a></div></div></div>
     <div class="card"><div class="thumb"><img src="img/treesa_accurate.webp" alt="" loading="lazy"></div><div class="body">
-      <h3><a href="#generation">Generation</a></h3><p>How distant terrain is made, what it includes, and where.</p>
-      <div class="subs"><a href="#modes">Modes</a><a href="#trees">Trees, snow &amp; ice</a><a href="#where">Area</a></div></div></div>
+      <h3><a href="#generation">Your world</a></h3><p>How distant terrain is made, what it includes, where, and what to know for your kind of world.</p>
+      <div class="subs"><a href="#modes">Modes</a><a href="#trees">Trees</a><a href="#where">Area</a><a href="#distances">Distances map</a><a href="#worldgen">World gen mods</a><a href="#tellus">Tellus</a><a href="#shaders">Shaders</a></div></div></div>
     <div class="card"><div class="thumb top"><img src="img/defaults_tab1_full.webp" alt="" loading="lazy"></div><div class="body">
       <h3><a href="#settings">Settings screen</a></h3><p>Every setting, one page per tab, as it appears in game.</p>
       <div class="subs"><a href="#tab-overview">Overview</a><a href="#tab-generation">Generation</a><a href="#tab-performance">Performance</a><a href="#tab-automation">Automation</a><a href="#tab-display">Display</a></div></div></div>
@@ -416,7 +428,21 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
     <li><a href="#pregen">Pregenerate a map before players join <span>Pregenerator</span></a></li>
     <li><a href="#conflicts">Can I use it with Voxy WorldGen? <span>Installing</span></a></li>
     <li><a href="#hud">What do the HUD numbers mean? <span>Progress HUD</span></a></li>
+    <li><a href="#worldgen">Does it work with my world gen mod? <span>World gen mods</span></a></li>
+    <li><a href="#shaders">LODs disappear with shaders <span>Shaders</span></a></li>
+    <li><a href="#distances">Set where trees and detail change <span>Distances map</span></a></li>
+    <li><a href="#rough-horizon">Fill a huge Tellus distance fast <span>Tellus</span></a></li>
   </ul>
+
+  <h2 id="words">Words used on this wiki</h2>
+  <dl class="gloss">
+    <dt>LOD</dt><dd>Level of detail: the simplified far-away terrain Voxy draws past your normal render distance.</dd>
+    <dt>Chunk</dt><dd>A 16 by 16 block column of the world. Distances here are in chunks; one chunk is 16 blocks.</dd>
+    <dt>Render distance</dt><dd>How far the game loads and draws real chunks. LODs fill in everything past it.</dd>
+    <dt>Real chunk</dt><dd>A chunk generated the normal way and saved in your world, with caves, ores and structures.</dd>
+    <dt>Fast terrain</dt><dd>Only the surface (ground, water, biomes, trees), made without saving a real chunk. Much quicker, and looks the same from far away.</dd>
+    <dt>World generator</dt><dd>What decides how a world looks: vanilla's, or one from a mod like Tellus.</dd>
+  </dl>
 
   <h2 id="features-list">Features</h2>
   <div class="mini-cards">
@@ -476,12 +502,12 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
   <div class="table-wrap"><table>
     <thead><tr><th>Jar</th><th>Minecraft</th><th>Java</th><th>Voxy</th><th>JourneyMap shading</th></tr></thead>
     <tbody>
-      <tr><td><code>voxy-speed-gen-1.0.3+26.2.jar</code></td><td class="nw">26.2</td><td>25</td><td>0.2.17+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.3+26.1.2.jar</code></td><td class="nw">26.1 &ndash; 26.1.2</td><td>25</td><td>0.2.14+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.3+1.21.11.jar</code></td><td class="nw">1.21.11</td><td>21</td><td>0.2.7+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.3+1.21.10.jar</code></td><td class="nw">1.21.9 &ndash; 1.21.10</td><td>21</td><td>0.2.5+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.3+1.21.8.jar</code></td><td class="nw">1.21.6 &ndash; 1.21.8</td><td>21</td><td>0.2.4+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.3+1.20.4.jar</code></td><td class="nw">1.20.4</td><td>17</td><td>0.1.5</td><td>No</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.4+26.2.jar</code></td><td class="nw">26.2</td><td>25</td><td>0.2.17+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.4+26.1.2.jar</code></td><td class="nw">26.1 &ndash; 26.1.2</td><td>25</td><td>0.2.14+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.4+1.21.11.jar</code></td><td class="nw">1.21.11</td><td>21</td><td>0.2.7+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.4+1.21.10.jar</code></td><td class="nw">1.21.9 &ndash; 1.21.10</td><td>21</td><td>0.2.5+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.4+1.21.8.jar</code></td><td class="nw">1.21.6 &ndash; 1.21.8</td><td>21</td><td>0.2.4+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.4+1.20.4.jar</code></td><td class="nw">1.20.4</td><td>17</td><td>0.1.5</td><td>No</td></tr>
     </tbody>
   </table></div>
   <h2 id="v1204">1.20.4 limitations</h2>
@@ -538,14 +564,16 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
 </article>
 
 <article class="page" data-page="generation">
-  <h1>Generation</h1>
-  <p class="summary">How distant terrain is made, what ends up in it, and which area around you gets generated.</p>
+  <h1>Your world</h1>
+  <p class="summary">How distant terrain is made, what ends up in it, which area around you gets generated, and what to know for your kind of world.</p>
   <div class="cards">
     <div class="card"><div class="thumb"><img src="img/vista_w.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#modes">Generation modes</a></h3><p>Fast terrain, real chunks, or a mix.</p></div></div>
     <div class="card"><div class="thumb"><img src="img/treesb_accurate.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#trees">Trees, snow &amp; ice</a></h3><p>What makes the far view look like the real thing.</p></div></div>
     <div class="card"><div class="thumb"><img src="img/topdown.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#where">Generation area</a></h3><p>The circle around each player, nearest first.</p></div></div>
     <div class="card"><div class="thumb top"><img src="img/distances_canvas.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#distances">Distances map</a></h3><p>Drag circles to set every distance, and turn them on or off.</p></div></div>
     <div class="card"><div class="thumb"><img src="img/vista_high.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#tellus">Tellus worlds</a></h3><p>A rough horizon in minutes, low detail far out, Tellus's own trees.</p></div></div>
+    <div class="card"><div class="thumb"><img src="img/vista_w.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#worldgen">World gen mods</a></h3><p>Terrain and biome mods, datapacks and custom generators.</p></div></div>
+    <div class="card"><div class="thumb"><img src="img/vista_n.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#shaders">Shaders</a></h3><p>LODs with shader packs, and the Iris 1.11.4 fix.</p></div></div>
   </div>
 </article>
 
@@ -768,6 +796,51 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
   <h2 id="tellus-memory">Memory</h2>
   <p>Tellus's terrain step normally makes the game load nearby chunks to check for structures. Voxy Speed Gen gives it an empty structure list instead, so generating far away doesn't fill your memory with loaded chunks.</p>
   <div class="seealso"><h4>See also</h4><div><a href="#distances">Distances map</a><a href="#performance">Performance</a><a href="#modes">Generation modes</a></div></div>
+</article>
+
+<article class="page" data-page="worldgen">
+  <h1>World gen mods</h1>
+  <p class="summary">Voxy Speed Gen runs your world's own generator, whatever it is, so the LODs match the terrain you'll walk into. That makes it a good fit for terrain and biome mods, datapacks and mods with their own generator.</p>
+  <h2 id="how-generators">How it handles a generator</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Kind of world</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td>Vanilla, and mods or datapacks that change vanilla's terrain settings and biomes</td><td>Fast terrain from the world's own noise settings, biomes and features</td></tr>
+      <tr><td>Mods with their own generator (Tellus, for example)</td><td>Fast terrain by running that generator's own terrain steps on a temporary chunk</td></tr>
+      <tr><td>A generator that can't be run that way</td><td>It notices and switches to real chunks for that world by itself. Slower, but the LODs still come out right.</td></tr>
+    </tbody>
+  </table></div>
+  <h2 id="check-world">Check your world</h2>
+  <p>Run <a href="#verify"><code>/vsg verify</code></a> near real chunks. It compares the fast terrain with real generation and gives a plain verdict. A poor verdict means a mod changes the terrain in a way the fast pass can't follow: use <a href="#modes">Real Chunks or Balanced</a> for that world.</p>
+  <h2 id="worldgen-structures">Structures from mods</h2>
+  <p>Fast terrain has no structures, from vanilla or from mods. If you want big ones visible from far away, use Balanced (real chunks near you) or <a href="#upgrade">upgrade to real chunks</a> once the area is filled.</p>
+  <h2 id="worldgen-trees">Trees from mods</h2>
+  <p>With trees on Vanilla, the world's own tree features are placed, including ones added by mods. Simple trees are look-alikes picked by biome, so modded trees show up as the closest vanilla shape.</p>
+  <h2 id="regular-worlds">Regular worlds</h2>
+  <p>In a singleplayer world with Minecraft's regular terrain generator, the mod points you once to Voxy SeedGen, which draws those worlds faster straight from the seed. Turn the tip off with <span class="ui">Suggest Voxy SeedGen</span> on the <a href="#tab-display">Display tab</a>.</p>
+  <div class="seealso"><h4>See also</h4><div><a href="#tellus">Tellus worlds</a><a href="#verify">Accuracy check</a><a href="#modes">Generation modes</a></div></div>
+</article>
+
+<article class="page" data-page="shaders">
+  <h1>Shaders</h1>
+  <p class="summary">Voxy's LODs work with shader packs that support Voxy. On Minecraft 26.2 with Iris 1.11.4, this mod also fixes LODs that would otherwise disappear.</p>
+  <h2 id="iris-fix">The Iris 1.11.4 fix</h2>
+  <p>Iris 1.11.4 changed how it handles depth, and with Voxy 0.2.19 that made the LODs invisible with every shader pack. Voxy Speed Gen corrects this when both are installed. It also lines LOD water and fog up with the normal chunks at the edge of your render distance, so the seam doesn't show.</p>
+  <h2 id="packs">Shader packs</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Pack</th><th>LODs</th></tr></thead>
+    <tbody>
+      <tr><td>BSL</td><td>Works</td></tr>
+      <tr><td>Complementary Reimagined</td><td>Works</td></tr>
+      <tr><td>Complementary Unbound</td><td>Works</td></tr>
+      <tr><td>Photon</td><td>Works</td></tr>
+      <tr><td>Bliss 2.1.2</td><td>No: the pack has no Voxy support</td></tr>
+    </tbody>
+  </table></div>
+  <p>The pack itself has to support Voxy. If a pack shows no LODs at all, check the pack's page for Voxy support first.</p>
+  <h2 id="shader-fog">Fog right past the render distance</h2>
+  <p>That's Voxy's <b>Fog and fade effect</b> setting, not the shader. Set it to "Fade only" or "Off".</p>
+  <div class="seealso"><h4>See also</h4><div><a href="#faq">FAQ</a><a href="#troubleshooting">Troubleshooting</a></div></div>
 </article>
 
 <article class="page" data-page="features">
@@ -1179,6 +1252,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
         <tr class="grp"><td colspan="3">On Your Screen (yours, even on a server)</td></tr>
         <tr><td><span class="ui">Progress Display</span><code class="key">hudMode</code></td><td>Hidden, Progress or Detailed. <kbd>F6</kbd> cycles it. <a href="#hud">More</a></td><td>Progress</td></tr>
         <tr><td><span class="ui">Map Shading</span><code class="key">mapOverlay</code></td><td>Shade LOD areas on Xaero's World Map or JourneyMap. <a href="#maps">More</a></td><td>On</td></tr>
+        <tr><td><span class="ui">Suggest Voxy SeedGen</span><code class="key">seedGenTip</code></td><td>In a world with regular terrain, points you once to a faster tool for it. <a href="#regular-worlds">More</a></td><td>On</td></tr>
         <tr class="grp"><td colspan="3">Multiplayer</td></tr>
         <tr><td><span class="ui">Send LODs to Players</span><code class="key">sendToClients</code></td><td>Stream LODs to players who have Voxy</td><td>On</td></tr>
         <tr><td><span class="ui">Upload Speed per Player</span><code class="key">maxColumnsPerSecondPerPlayer</code></td><td>Bandwidth limit per player. Lower it if players lag on join.</td><td>80/s</td></tr>
@@ -1326,6 +1400,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <tr><td><code>keepGeneratedTerrain</code></td><td><code>true</code></td><td>Keep Generated Terrain</td><td>Generation</td></tr>
       <tr><td><code>fillLoadingChunks</code></td><td><code>true</code></td><td>Fill Chunks Still Loading</td><td>Generation</td></tr>
       <tr><td><code>giantFar</code></td><td><code>true</code></td><td>Rough Horizon First (Tellus)</td><td>Generation</td></tr>
+      <tr><td><code>seedGenTip</code></td><td><code>true</code></td><td>Suggest Voxy SeedGen</td><td>Display</td></tr>
       <tr><td><code>simpleTreesFar</code> / <code>simpleTreesBeyond</code></td><td><code>true</code> / <code>256</code></td><td>Simple Trees From</td><td>Overview (Distances)</td></tr>
       <tr><td><code>noTreesFar</code> / <code>noTreesBeyond</code></td><td><code>false</code> / <code>512</code></td><td>No Trees From</td><td>Overview (Distances)</td></tr>
       <tr><td><code>lowDetailFar</code> / <code>lowDetailBeyond</code></td><td><code>true</code> / <code>256</code></td><td>Low Detail (Tellus)</td><td>Overview (Distances)</td></tr>
@@ -1421,7 +1496,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
     </div>
   </div>
   <p class="muted" style="margin-top:-12px">Replayed at 15&times; from the completion times measured in this setup. The square in the middle is the render distance, which the game loads itself.</p>
-  <h2 id="results">Results in this setup</h2>
+  <h2 id="bench-results">Results in this setup</h2>
   <div class="table-wrap"><table>
     <thead><tr><th>Generator</th><th class="num">Rate into Voxy</th><th class="num">64-chunk radius</th><th class="num">Server ms/tick</th></tr></thead>
     <tbody>
@@ -1498,9 +1573,9 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
   <h2 id="disk">How much disk does it use?</h2>
   <p>In Fast mode, nothing in your region files. Saved terrain goes in <code>&lt;world&gt;/data/voxy_speed_gen/terrain/</code>, and <code>/vsg</code> shows its size. Voxy's own cache grows with LOD Distance, whatever fills it.</p>
   <h2 id="worldgen-mods">Does it work with worldgen mods?</h2>
-  <p>Noise-based ones usually do; check with <a href="#verify"><code>/vsg verify</code></a>. Others, such as Tellus, run their own terrain stages in Fast mode. If that keeps failing for a generator, it switches to real chunks by itself.</p>
+  <p>Yes: it runs your world's own generator. Check a world with <a href="#verify"><code>/vsg verify</code></a>. More on <a href="#worldgen">World gen mods</a>.</p>
   <h2 id="shaders">LODs disappear when I turn on a shader pack</h2>
-  <p>On Minecraft 26.2, Iris 1.11.4 hid Voxy's LODs with every shader pack. This mod fixes that, and lines LOD water and fog up with the real chunks. The shader pack still needs its own Voxy support: BSL, Complementary Reimagined and Unbound, and Photon have it; Bliss 2.1.2 doesn't.</p>
+  <p>On Minecraft 26.2, Iris 1.11.4 hid Voxy's LODs with every shader pack, and this mod fixes that. The pack still needs its own Voxy support. See <a href="#shaders">Shaders</a>.</p>
   <h2 id="old-trees">I changed the tree setting, but areas I'd already filled look the same</h2>
   <p>Areas Voxy already has are skipped. Turn off <span class="ui">Skip Existing LODs</span>, run <code>/vsg forget all</code>, and the mod fills them again with the new setting.</p>
   <h2 id="with-vwg">Can I use it with Voxy WorldGen?</h2>
@@ -1508,7 +1583,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
 </article>
 
     <nav class="pn" id="pn" aria-label="Previous and next page"></nav>
-    <div class="foot">Voxy Speed Gen 1.0.3 &middot; MIT. Voxy is All-Rights-Reserved and never bundled. Screenshots were taken in game with default settings unless a caption says otherwise.</div>
+    <div class="foot">Voxy Speed Gen 1.0.4 &middot; MIT. Voxy is All-Rights-Reserved and never bundled. Screenshots were taken in game with default settings unless a caption says otherwise.</div>
   </main>
   <aside class="toc" id="toc" aria-label="On this page"></aside>
 </div>
@@ -1520,7 +1595,8 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <input id="q" type="search" placeholder="Search pages, settings, commands" autocomplete="off" aria-controls="results">
       <span class="k">Esc</span>
     </div>
-    <ul class="results" id="results" role="listbox"></ul>
+    <ul class="results" id="results" role="listbox" aria-label="Search results"></ul>
+    <p class="sr-only" id="resultCount" aria-live="polite"></p>
     <div class="search-foot"><span><span class="k">&uarr;</span> <span class="k">&darr;</span> move</span><span><span class="k">Enter</span> open</span><span>Try "fog", "upload", "F6"</span></div>
   </div>
 </dialog>
@@ -1540,12 +1616,14 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       { page: 'install', title: 'Installing' },
       { page: 'versions', title: 'Versions' },
       { page: 'first-launch', title: 'First launch' } ] },
-    { section: 'Generation', page: 'generation', children: [
+    { section: 'Your world', page: 'generation', children: [
       { page: 'modes', title: 'Generation modes' },
       { page: 'trees', title: 'Trees, snow & ice' },
       { page: 'where', title: 'Generation area' },
       { page: 'distances', title: 'Distances map' },
-      { page: 'tellus', title: 'Tellus worlds' } ] },
+      { page: 'worldgen', title: 'World gen mods' },
+      { page: 'tellus', title: 'Tellus worlds' },
+      { page: 'shaders', title: 'Shaders' } ] },
     { section: 'Features', page: 'features', children: [
       { page: 'saved', title: 'Saved terrain' },
       { page: 'placeholders', title: 'No holes while loading' },
@@ -1647,7 +1725,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
 
   /* router */
   const toc = $('#toc'), pn = $('#pn');
-  let current = null;
+  let current = null, routed = false;
   function route() {
     const h = decodeURIComponent(location.hash.slice(1));
     const pageId = byId[h] ? h : (sectionToPage[h] || 'home');
@@ -1663,6 +1741,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       pn.innerHTML = (prev ? `<a href="#${prev}"><small>Previous</small><span>${info[prev].title}</span></a>` : '<span></span>') +
         (next ? `<a class="next" href="#${next}"><small>Next</small><span>${info[next].title}</span></a>` : '');
       if (!target) window.scrollTo(0, 0);
+      if (routed) { const t = page.querySelector('h1'); if (t) { t.tabIndex = -1; t.focus({ preventScroll: true }); } }
       page.dispatchEvent(new Event('shown'));
     }
     if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
@@ -1714,7 +1793,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
     }, { rootMargin: '-60px 0px -65% 0px' });
     hs.forEach(h => io.observe(h));
   }
-  addEventListener('hashchange', route);
+  addEventListener('hashchange', () => { routed = true; route(); });
   $('#menuBtn').addEventListener('click', () => { const open = document.body.classList.toggle('nav-open'); $('#menuBtn').setAttribute('aria-expanded', String(open)); });
   document.addEventListener('click', e => { if (document.body.classList.contains('nav-open') && !e.target.closest('#side, #menuBtn')) document.body.classList.remove('nav-open'); });
 
@@ -1752,6 +1831,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       let snip = r.text; if (terms.length) { const at = snip.toLowerCase().indexOf(terms[0]); if (at > 40) snip = '…' + snip.slice(at - 30); }
       return `<li><a href="${r.href}" role="option" data-i="${i}" aria-selected="${i === 0}"><span class="rp">${esc(r.page)}</span><br><span class="rt">${hlt(r.title, terms)}</span><span class="rs">${hlt(snip.slice(0, 160), terms)}</span></a></li>`;
     }).join('') : `<li class="empty">Nothing matches "${esc(q.value)}". Try a setting name as shown in game, like "LOD Distance".</li>`;
+    $('#resultCount').textContent = shown.length ? shown.length + (shown.length === 1 ? ' result' : ' results') : 'No results';
   }
   function move(d) { const as = $$('a', res); if (!as.length) return; as[sel].setAttribute('aria-selected', 'false'); sel = (sel + d + as.length) % as.length; as[sel].setAttribute('aria-selected', 'true'); as[sel].scrollIntoView({ block: 'nearest' }); }
   function openSearch() { dlg.showModal(); q.value = ''; search(); q.focus(); }
