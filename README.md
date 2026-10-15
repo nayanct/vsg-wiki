@@ -7,7 +7,8 @@ This is the documentation site for **Voxy Speed Gen**, a Fabric mod that generat
 The wiki covers:
 
 - Installing the mod and what you need with it
-- The terrain modes (Fast, Balanced, Real Chunks) and tree settings
+- The terrain modes (Fast, Balanced, Real Chunks), tree settings and the distances map
+- Tellus worlds: the rough horizon and low-detail terrain
 - Every setting in the settings screen and every command
 - Servers, pregeneration, map overlays and shaders
 - Troubleshooting and FAQ

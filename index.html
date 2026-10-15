@@ -428,6 +428,8 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
     <a href="#saved"><b>Saved terrain</b><span>Refills Voxy without regenerating</span></a>
     <a href="#maps"><b>Map shading</b><span>Xaero's World Map, JourneyMap</span></a>
     <a href="#verify"><b>Accuracy check</b><span>Compare against real chunks</span></a>
+    <a href="#distances"><b>Distances map</b><span>Drag circles to set every distance</span></a>
+    <a href="#tellus"><b>Tellus worlds</b><span>Rough horizon in minutes, low detail far out</span></a>
   </div>
 </article>
 
@@ -474,12 +476,12 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
   <div class="table-wrap"><table>
     <thead><tr><th>Jar</th><th>Minecraft</th><th>Java</th><th>Voxy</th><th>JourneyMap shading</th></tr></thead>
     <tbody>
-      <tr><td><code>voxy-speed-gen-1.0.1+26.2.jar</code></td><td class="nw">26.2</td><td>25</td><td>0.2.17+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.1+26.1.2.jar</code></td><td class="nw">26.1 &ndash; 26.1.2</td><td>25</td><td>0.2.14+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.1+1.21.11.jar</code></td><td class="nw">1.21.11</td><td>21</td><td>0.2.7+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.1+1.21.10.jar</code></td><td class="nw">1.21.9 &ndash; 1.21.10</td><td>21</td><td>0.2.5+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.1+1.21.8.jar</code></td><td class="nw">1.21.6 &ndash; 1.21.8</td><td>21</td><td>0.2.4+</td><td>Yes</td></tr>
-      <tr><td><code>voxy-speed-gen-1.0.1+1.20.4.jar</code></td><td class="nw">1.20.4</td><td>17</td><td>0.1.5</td><td>No</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.3+26.2.jar</code></td><td class="nw">26.2</td><td>25</td><td>0.2.17+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.3+26.1.2.jar</code></td><td class="nw">26.1 &ndash; 26.1.2</td><td>25</td><td>0.2.14+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.3+1.21.11.jar</code></td><td class="nw">1.21.11</td><td>21</td><td>0.2.7+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.3+1.21.10.jar</code></td><td class="nw">1.21.9 &ndash; 1.21.10</td><td>21</td><td>0.2.5+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.3+1.21.8.jar</code></td><td class="nw">1.21.6 &ndash; 1.21.8</td><td>21</td><td>0.2.4+</td><td>Yes</td></tr>
+      <tr><td><code>voxy-speed-gen-1.0.3+1.20.4.jar</code></td><td class="nw">1.20.4</td><td>17</td><td>0.1.5</td><td>No</td></tr>
     </tbody>
   </table></div>
   <h2 id="v1204">1.20.4 limitations</h2>
@@ -542,6 +544,8 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
     <div class="card"><div class="thumb"><img src="img/vista_w.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#modes">Generation modes</a></h3><p>Fast terrain, real chunks, or a mix.</p></div></div>
     <div class="card"><div class="thumb"><img src="img/treesb_accurate.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#trees">Trees, snow &amp; ice</a></h3><p>What makes the far view look like the real thing.</p></div></div>
     <div class="card"><div class="thumb"><img src="img/topdown.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#where">Generation area</a></h3><p>The circle around each player, nearest first.</p></div></div>
+    <div class="card"><div class="thumb top"><img src="img/distances_canvas.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#distances">Distances map</a></h3><p>Drag circles to set every distance, and turn them on or off.</p></div></div>
+    <div class="card"><div class="thumb"><img src="img/vista_high.webp" alt="" loading="lazy"></div><div class="body"><h3><a href="#tellus">Tellus worlds</a></h3><p>A rough horizon in minutes, low detail far out, Tellus's own trees.</p></div></div>
   </div>
 </article>
 
@@ -623,6 +627,16 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <tr><td><span class="ui">Off</span></td><td>Bare terrain. Rivers stay unfrozen.</td><td>Cheapest</td></tr>
     </tbody>
   </table></div>
+  <h2 id="trees-by-distance">Trees by distance</h2>
+  <p>With Vanilla on, two circles on the <a href="#distances">Distances map</a> change the trees further out:</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Circle</th><th>Past it</th><th>Default</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Simple Trees From</span></td><td>Simple trees instead of Vanilla. You can't tell them apart that far out, and they're much faster to make.</td><td>On, 256 chunks</td></tr>
+      <tr><td><span class="ui">No Trees From</span></td><td>No trees at all. The fastest, for very large distances.</td><td>Off, 512 chunks</td></tr>
+    </tbody>
+  </table></div>
+  <p>Turn a circle off to keep that kind of tree all the way out.</p>
   <h2 id="tree-shots">Side by side</h2>
   <figure>
     <div class="compare" data-compare>
@@ -696,6 +710,64 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
   <h2 id="dimensions">Dimensions</h2>
   <p>The Overworld is always generated. The Nether and the End have their own switches. Turn off modded dimensions in the config file, for example <code>"disabledDimensions": ["mymod:skylands"]</code>.</p>
   <div class="seealso"><h4>See also</h4><div><a href="#modes">Generation modes</a><a href="#server">Servers</a><a href="#tab-generation">Generation tab</a></div></div>
+</article>
+
+<article class="page" data-page="distances">
+  <h1>Distances map</h1>
+  <p class="summary">A map of the area around you, seen from above, on the <a href="#tab-overview">Overview tab</a>. Every distance the mod uses is a circle on it: drag a circle to change it, click a name to turn it on or off.</p>
+  <figure><button class="shot flat" data-src="img/distances_canvas.webp" aria-label="Enlarge"><img src="img/distances_canvas.webp" alt="The Distances map: coloured circles around a dot in the middle, with a list of the distances beside it." loading="lazy" width="930" height="500"></button><figcaption>The map in Balanced mode. The filled area shows which trees you get where.</figcaption></figure>
+  <h2 id="circles">The circles</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Circle</th><th>What it sets</th><th>Can turn off</th><th>Default</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">LOD Distance</span></td><td>How far around you LODs are made. Same as the slider above it.</td><td>No</td><td>128 chunks</td></tr>
+      <tr><td><span class="ui">Real Chunk Distance</span></td><td>Balanced mode only: real chunks inside it, fast terrain outside</td><td>No</td><td>24 chunks</td></tr>
+      <tr><td><span class="ui">Upgrade Distance</span></td><td>Once everything is done, fast terrain inside it is slowly replaced with real chunks. <a href="#upgrade">More</a></td><td>Yes</td><td>32 chunks, on</td></tr>
+      <tr><td><span class="ui">Simple Trees From</span></td><td>Vanilla trees become Simple past it. <a href="#trees-by-distance">More</a></td><td>Yes</td><td>256 chunks, on</td></tr>
+      <tr><td><span class="ui">No Trees From</span></td><td>No trees past it</td><td>Yes</td><td>512 chunks, off</td></tr>
+      <tr><td><span class="ui">Low Detail (Tellus)</span></td><td>Tellus worlds only: low-detail terrain past it. <a href="#tellus-low-detail">More</a></td><td>Yes</td><td>256 chunks, on</td></tr>
+    </tbody>
+  </table></div>
+  <h2 id="using-map">Using it</h2>
+  <ul>
+    <li>Drag a circle to change its distance. The slider for the same setting moves with it, and the other way round.</li>
+    <li>Click a name in the list to turn that circle on or off. A circle that's off isn't drawn.</li>
+    <li>Hover over a circle or a name to see what it does.</li>
+    <li>A circle past your LOD Distance is greyed out and says so. It does nothing until LOD Distance is bigger.</li>
+    <li>The scale isn't linear, so small distances near you stay easy to grab even with a huge LOD Distance.</li>
+    <li>Simple Trees From and No Trees From push each other along, so No Trees is never closer than Simple.</li>
+    <li>On a server only operators can change them. Everyone else sees the map read-only.</li>
+  </ul>
+  <div class="seealso"><h4>See also</h4><div><a href="#where">Generation area</a><a href="#trees">Trees, snow &amp; ice</a><a href="#tellus">Tellus worlds</a></div></div>
+</article>
+
+<article class="page" data-page="tellus">
+  <h1>Tellus worlds</h1>
+  <p class="summary">Tellus builds the real Earth from map data it downloads. Voxy Speed Gen works with it out of the box and has a few extra tricks to make Earth-sized distances practical.</p>
+  <aside class="infobox">
+    <p class="ib-title">Tellus</p>
+    <dl>
+      <dt>Rough Horizon First</dt><dd>On (<code>giantFar</code>)</dd>
+      <dt>Low Detail</dt><dd>On, 256 chunks (<code>lowDetailFar</code>, <code>lowDetailBeyond</code>)</dd>
+      <dt>Trees</dt><dd>Tellus's own, with Vanilla</dd>
+    </dl>
+  </aside>
+  <h2 id="rough-horizon">Rough Horizon First</h2>
+  <p>Before filling in any detail, it covers your whole LOD Distance in rough terrain made of 16-block cubes: one cube per chunk section, coloured by the ground, water and biome there. It only needs one map sample per chunk and doesn't build chunks at all, so it's several times faster than the normal fill. In testing it covered a 256-chunk radius (about 205,000 chunks) in around 2 minutes.</p>
+  <p>The normal fill keeps going at the same time, from you outward, and replaces the cubes chunk by chunk. By the time you get close to an area, the cubes there are gone.</p>
+  <ul>
+    <li>The cubes are never counted as done: the progress bar, map shading and <span class="ui">Skip Existing LODs</span> only count real LODs.</li>
+    <li>Only for your own game (singleplayer, or the host of a LAN world). It leaves out the 32 chunks around you, which the normal fill reaches in seconds anyway.</li>
+    <li>Switch: <span class="ui">Rough Horizon First (Tellus)</span> on the <a href="#tab-generation">Generation tab</a>, or <code>/vsg set giantFar false</code>.</li>
+  </ul>
+  <h2 id="tellus-low-detail">Low Detail</h2>
+  <p>Past the <span class="ui">Low Detail</span> circle on the <a href="#distances">Distances map</a>, terrain is made from Tellus's lower-detail map data instead of its full terrain step: fewer downloads and much less work per chunk. It's around 1.5 to 1.8 times faster. Roads and buildings aren't drawn that far out, and you couldn't see them from there anyway.</p>
+  <p>If your Tellus version supports it, map data is also requested ahead of time as chunks are queued, so it's already downloaded when they're generated.</p>
+  <h2 id="tellus-trees">Trees</h2>
+  <p>With trees on Vanilla, Tellus worlds get Tellus's own trees, so forests are where they are on the real Earth. Simple trees and the <a href="#trees-by-distance">tree circles</a> work as in any other world.</p>
+  <h2 id="tellus-memory">Memory</h2>
+  <p>Tellus's terrain step normally makes the game load nearby chunks to check for structures. Voxy Speed Gen gives it an empty structure list instead, so generating far away doesn't fill your memory with loaded chunks.</p>
+  <div class="seealso"><h4>See also</h4><div><a href="#distances">Distances map</a><a href="#performance">Performance</a><a href="#modes">Generation modes</a></div></div>
 </article>
 
 <article class="page" data-page="features">
@@ -1011,6 +1083,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
         <tr><td><span class="ui">Terrain Quality</span><code class="key">mode</code></td><td>Fast (Surface), Real Chunks or Balanced. <a href="#modes">More</a></td><td>Fast (Surface)</td></tr>
         <tr><td><span class="ui">LOD Distance</span><code class="key">radius</code></td><td>How far around you to generate, 8&ndash;2,048 chunks. <a href="#where">More</a></td><td>128</td></tr>
         <tr><td><span class="ui">Trees, Snow &amp; Ice</span><code class="key">surfaceDetail</code></td><td>Vanilla, Simple or Off. Fast mode only. <a href="#trees">More</a></td><td>Vanilla</td></tr>
+        <tr><td><span class="ui">Distances</span></td><td>A map with a circle for each distance. Drag to change, click a name to turn it off. <a href="#distances">More</a></td><td></td></tr>
         <tr><td><span class="ui">Performance Profile</span></td><td>Low, Balanced, High, Max. Sets every limit on the Performance tab. <a href="#performance">More</a></td><td>Balanced</td></tr>
       </tbody>
     </table></div>
@@ -1032,6 +1105,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
         <tr><td><span class="ui">Skip Existing LODs</span><code class="key">trustVoxyData</code></td><td>Doesn't regenerate areas Voxy already has</td><td>On</td></tr>
         <tr><td><span class="ui">Keep Generated Terrain</span><code class="key">keepGeneratedTerrain</code></td><td>Saves Fast terrain so Voxy can be refilled. <a href="#saved">More</a></td><td>On</td></tr>
         <tr><td><span class="ui">Fill Chunks Still Loading</span><code class="key">fillLoadingChunks</code></td><td>Placeholder terrain where real chunks haven't loaded. <a href="#placeholders">More</a></td><td>On</td></tr>
+        <tr><td><span class="ui">Rough Horizon First (Tellus)</span><code class="key">giantFar</code></td><td>Tellus worlds: covers the whole distance in rough 16-block terrain first. <a href="#rough-horizon">More</a></td><td>On</td></tr>
         <tr><td><span class="ui">Distance Limit</span><code class="key">radius</code></td><td>Servers only: the furthest the server generates for anyone</td><td>128</td></tr>
         <tr class="grp"><td colspan="3">Dimensions</td></tr>
         <tr><td><span class="ui">The Nether</span> <span class="ui">The End</span><code class="key">disabledDimensions</code></td><td>Generate in that dimension. The Overworld is always on.</td><td>On</td></tr>
@@ -1227,7 +1301,10 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <tr><td><code>maxMspt</code></td><td>10&ndash;1000</td><td><code>trustVoxyData</code></td><td>bool</td></tr>
       <tr><td><code>maxVoxyBacklog</code></td><td>1,000&ndash;10,000,000</td><td><code>keepGeneratedTerrain</code></td><td>bool</td></tr>
       <tr><td><code>sendToClients</code></td><td>bool</td><td><code>fillLoadingChunks</code></td><td>bool</td></tr>
-      <tr><td><code>maxColumnsPerSecondPerPlayer</code></td><td>1&ndash;10,000</td><td></td><td></td></tr>
+      <tr><td><code>maxColumnsPerSecondPerPlayer</code></td><td>1&ndash;10,000</td><td><code>giantFar</code></td><td>bool</td></tr>
+      <tr><td><code>simpleTreesFar</code></td><td>bool</td><td><code>simpleTreesBeyond</code></td><td>16&ndash;2048</td></tr>
+      <tr><td><code>noTreesFar</code></td><td>bool</td><td><code>noTreesBeyond</code></td><td>16&ndash;2048</td></tr>
+      <tr><td><code>lowDetailFar</code></td><td>bool</td><td><code>lowDetailBeyond</code></td><td>16&ndash;2048</td></tr>
     </tbody>
   </table></div>
 </article>
@@ -1248,6 +1325,10 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <tr><td><code>trustVoxyData</code></td><td><code>true</code></td><td>Skip Existing LODs</td><td>Generation</td></tr>
       <tr><td><code>keepGeneratedTerrain</code></td><td><code>true</code></td><td>Keep Generated Terrain</td><td>Generation</td></tr>
       <tr><td><code>fillLoadingChunks</code></td><td><code>true</code></td><td>Fill Chunks Still Loading</td><td>Generation</td></tr>
+      <tr><td><code>giantFar</code></td><td><code>true</code></td><td>Rough Horizon First (Tellus)</td><td>Generation</td></tr>
+      <tr><td><code>simpleTreesFar</code> / <code>simpleTreesBeyond</code></td><td><code>true</code> / <code>256</code></td><td>Simple Trees From</td><td>Overview (Distances)</td></tr>
+      <tr><td><code>noTreesFar</code> / <code>noTreesBeyond</code></td><td><code>false</code> / <code>512</code></td><td>No Trees From</td><td>Overview (Distances)</td></tr>
+      <tr><td><code>lowDetailFar</code> / <code>lowDetailBeyond</code></td><td><code>true</code> / <code>256</code></td><td>Low Detail (Tellus)</td><td>Overview (Distances)</td></tr>
       <tr><td><code>disabledDimensions</code></td><td><code>[]</code></td><td>The Nether / The End</td><td>Generation</td></tr>
       <tr><td><code>workerThreads</code></td><td><code>0</code></td><td>CPU Threads</td><td>Performance</td></tr>
       <tr><td><code>maxActiveSurface</code></td><td><code>32</code></td><td>Parallel Fast Jobs</td><td>Performance</td></tr>
@@ -1304,6 +1385,8 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
       <tr><td><b>Voxy backlog</b></td><td>New work waits while Voxy's queue is over <span class="ui">Voxy Catch-up Limit</span></td></tr>
       <tr><td><b>Own threads</b></td><td>Fast terrain runs on its own low-priority threads, not the game's world-generation threads</td></tr>
       <tr><td><b>Combat, low FPS</b></td><td>Quarter speed; see <a href="#slowdown">Automation</a></td></tr>
+      <tr><td><b>Memory</b></td><td>Voxy's queue never uses more than about 15% of your memory, whatever the settings. Above 70% memory use it backs off and clears its own caches; above 85% it pauses until memory is free again.</td></tr>
+      <tr><td><b>Replays</b></td><td>Stays idle while Flashback plays back or exports a replay</td></tr>
     </tbody>
   </table></div>
   <h2 id="symptoms">Symptoms</h2>
@@ -1425,7 +1508,7 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
 </article>
 
     <nav class="pn" id="pn" aria-label="Previous and next page"></nav>
-    <div class="foot">Voxy Speed Gen 1.0.1 &middot; MIT. Voxy is All-Rights-Reserved and never bundled. Screenshots were taken in game with default settings unless a caption says otherwise.</div>
+    <div class="foot">Voxy Speed Gen 1.0.3 &middot; MIT. Voxy is All-Rights-Reserved and never bundled. Screenshots were taken in game with default settings unless a caption says otherwise.</div>
   </main>
   <aside class="toc" id="toc" aria-label="On this page"></aside>
 </div>
@@ -1460,7 +1543,9 @@ dialog::backdrop { background: rgba(8, 12, 10, .55); backdrop-filter: blur(3px);
     { section: 'Generation', page: 'generation', children: [
       { page: 'modes', title: 'Generation modes' },
       { page: 'trees', title: 'Trees, snow & ice' },
-      { page: 'where', title: 'Generation area' } ] },
+      { page: 'where', title: 'Generation area' },
+      { page: 'distances', title: 'Distances map' },
+      { page: 'tellus', title: 'Tellus worlds' } ] },
     { section: 'Features', page: 'features', children: [
       { page: 'saved', title: 'Saved terrain' },
       { page: 'placeholders', title: 'No holes while loading' },
